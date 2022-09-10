@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.10.4 on win32)" generated="20220611 19:16:55.624" rpa="false" schemaversion="3">
+<suite id="s1" name="Healenium Test" source="C:\Users\Edward\PycharmProjects\selfhealing-robot-framework\tests\healenium_test.robot">
+<kw name="Open web application" type="SETUP">
+<arg>${url}</arg>
+<arg>firefox</arg>
+<arg>${selenium_grid_url}</arg>
+<if>
+<branch type="IF" condition="&quot;${browser}&quot; == &quot;chrome&quot; or &quot;${browser}&quot; == &quot;googlechrome&quot; or &quot;${browser}&quot; == &quot;gc&quot; or &quot;${browser}&quot; == &quot;headlesschrome&quot;">
+<kw name="Evaluate" library="BuiltIn">
+<var>${chrome_options}</var>
+<arg>sys.modules['selenium.webdriver'].ChromeOptions()</arg>
+<arg>sys, selenium.webdriver</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" starttime="20220611 19:17:10.688" endtime="20220611 19:17:10.688"/>
+</kw>
+<kw name="Call Method" library="BuiltIn">
+<arg>${chrome_options}</arg>
+<arg>add_argument</arg>
+<arg>--no-sandbox</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="NOT RUN" starttime="20220611 19:17:10.691" endtime="20220611 19:17:10.691"/>
+</kw>
+<kw name="Call Method" library="BuiltIn">
+<var>${options}</var>
+<arg>${chrome_options}</arg>
+<arg>to_capabilities</arg>
+<doc>Calls the named method of the given object with the provided arguments.</doc>
+<status status="NOT RUN" starttime="20220611 19:17:10.692" endtime="20220611 19:17:10.692"/>
+</kw>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>url=${url}</arg>
+<arg>browser=${browser}</arg>
+<arg>remote_url=${selenium_grid_url}</arg>
+<arg>desired_capabilities=${options}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="NOT RUN" starttime="20220611 19:17:10.693" endtime="20220611 19:17:10.693"/>
+</kw>
+<status status="NOT RUN" starttime="20220611 19:17:10.687" endtime="20220611 19:17:10.693"/>
+</branch>
+<branch type="ELSE">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>url=${url}</arg>
+<arg>browser=${browser}</arg>
+<arg>remote_url=${selenium_grid_url}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220611 19:17:10.697" level="INFO">Opening browser 'firefox' to base url 'https://sha-test-app.herokuapp.com' through remote server at 'http://localhost:8085'.</msg>
+<status status="PASS" starttime="20220611 19:17:10.694" endtime="20220611 19:17:33.543"/>
+</kw>
+<status status="PASS" starttime="20220611 19:17:10.694" endtime="20220611 19:17:33.543"/>
+</branch>
+<status status="PASS" starttime="20220611 19:17:10.686" endtime="20220611 19:17:33.543"/>
+</if>
+<status status="PASS" starttime="20220611 19:17:10.685" endtime="20220611 19:17:33.544"/>
+</kw>
+<test id="s1-t1" name="Click me button test" line="19">
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${click_me_btn}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220611 19:17:33.548" level="INFO">Clicking element '//button[contains(@class,'default-btn')]'.</msg>
+<status status="PASS" starttime="20220611 19:17:33.547" endtime="20220611 19:17:35.456"/>
+</kw>
+<kw name="Handle Alert" library="SeleniumLibrary">
+<arg>action=ACCEPT</arg>
+<doc>Handles the current alert and returns its message.</doc>
+<msg timestamp="20220611 19:17:35.460" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
+<status status="PASS" starttime="20220611 19:17:35.457" endtime="20220611 19:17:35.787"/>
+</kw>
+<doc>Simple smoke test that should always pass</doc>
+<status status="PASS" starttime="20220611 19:17:33.544" endtime="20220611 19:17:35.789"/>
+</test>
+<test id="s1-t2" name="Click me button test with healing" line="24">
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${generate_markup_btn}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220611 19:17:35.798" level="INFO">Clicking element '//*[@id='markup-generation-button']'.</msg>
+<status status="PASS" starttime="20220611 19:17:35.797" endtime="20220611 19:17:37.508"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${click_me_btn}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220611 19:17:37.510" level="INFO">Clicking element '//button[contains(@class,'default-btn')]'.</msg>
+<status status="PASS" starttime="20220611 19:17:37.509" endtime="20220611 19:17:39.776"/>
+</kw>
+<kw name="Get Logs" library="healenium_log">
+<var>${logs}</var>
+<msg timestamp="20220611 19:17:39.794" level="INFO">${logs} = SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/logback-classic-1.2.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found bin...</msg>
+<status status="PASS" starttime="20220611 19:17:39.792" endtime="20220611 19:17:39.794"/>
+</kw>
+<kw name="Get Lines Containing String" library="String">
+<var>${healed_locator}</var>
+<arg>${logs}</arg>
+<arg>Using healed locator</arg>
+<arg>False</arg>
+<doc>Returns lines of the given ``string`` that contain the ``pattern``.</doc>
+<msg timestamp="20220611 19:17:39.805" level="INFO">58 out of 470 lines matched</msg>
+<msg timestamp="20220611 19:17:39.806" level="INFO">${healed_locator} = 2022-06-08 13:39:18.516  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#data-id)
+2022-06-08...</msg>
+<status status="PASS" starttime="20220611 19:17:39.803" endtime="20220611 19:17:39.806"/>
+</kw>
+<kw name="Get Line" library="String">
+<var>${info_healed_locator}</var>
+<arg>${healed_locator}</arg>
+<arg>-1</arg>
+<doc>Returns the specified line from the given ``string``.</doc>
+<msg timestamp="20220611 19:17:39.809" level="INFO">${info_healed_locator} = 2022-06-11 17:11:44.518  WARN 8 --- [nio-8085-exec-3] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: button#id-1)</msg>
+<status status="PASS" starttime="20220611 19:17:39.807" endtime="20220611 19:17:39.809"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${info_healed_locator}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220611 19:17:39.811" level="INFO">2022-06-11 17:11:44.518  WARN 8 --- [nio-8085-exec-3] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: button#id-1)</msg>
+<status status="PASS" starttime="20220611 19:17:39.810" endtime="20220611 19:17:39.812"/>
+</kw>
+<kw name="Handle Alert" library="SeleniumLibrary">
+<arg>action=ACCEPT</arg>
+<doc>Handles the current alert and returns its message.</doc>
+<msg timestamp="20220611 19:17:39.813" level="INFO">HANDLE::&lt;class 'NoneType'&gt;::None</msg>
+<status status="PASS" starttime="20220611 19:17:39.812" endtime="20220611 19:17:40.194"/>
+</kw>
+<doc>Test the selfhealing functionality of Healenium</doc>
+<status status="PASS" starttime="20220611 19:17:35.792" endtime="20220611 19:17:40.201"/>
+</test>
+<test id="s1-t3" name="Logging in the file" line="35">
+<kw name="Get Logs" library="healenium_log">
+<var>${logs}</var>
+<msg timestamp="20220611 19:17:40.208" level="INFO">${logs} = SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/logback-classic-1.2.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found bin...</msg>
+<status status="PASS" starttime="20220611 19:17:40.206" endtime="20220611 19:17:40.208"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${logs}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220611 19:17:40.211" level="INFO">SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/logback-classic-1.2.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/slf4j-simple-1.7.33.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+
+
+                                                                              
+                                                                              
+                     &amp;@@@@@@@@@@:              @@@@@@@@@@8                    
+                @@@@@@@@@@@@@@@@@@@@@:    @@@@@@@@@@@@@@@@@@@@@               
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&amp;            
+           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          
+         .@@@@@@@@@@*            @@@@@@@@@@@@@            *@@@@@@@@@@@        
+        @@@@@@@@@*              .@@@@@@@@@@                   @@@@@@@@@       
+       @@@@@@@@@               @@@@@@@@@@                      o@@@@@@@@      
+      :@@@@@@@              .@@@@@@@@@@                          @@@@@@@@     
+      @@@@@@@*            .@@@@@@@@@@                             @@@@@@@     
+     #@@@@@@@            @@@@@@@@@@                               @@@@@@@#    
+     @@@@@@@o          @@@@@@@@@@                                 o@@@@@@@    
+     @@@@@@@o       .@@@@@@@@@@                                   o@@@@@@@    
+     8@@@@@@@     .@@@@@@@@@@           :@@&amp;                      @@@@@@@8    
+      @@@@@@@o   @@@@@@@@@@          @@@@@@@@@@                   @@@@@@@     
+       @@@@@@@*@@@@@@@@@@          @@@@@@@@@@@@@@                @@@@@@@@     
+       @@@@@@@@@@@@@@@@          @@@@@@@@@@@@@@@@              @@@@@@@@@      
+        &amp;@@@@@@@@@@@@          @@@@@@@@@@@@@@@@@@            o@@@@@@@@@       
+         @@@@@@@@@@           @@@@@@@@@@@@@@@@@@@           @@@@@@@@@@        
+        @@@@@@@@@             @@@@@@@@@@@@@@@@@.         o@@@@@@@@@@@@@       
+       @@@@@@@@               @@@@@@@@@@@@@@@          o@@@@@@@@@@@@@@@@      
+      @@@@@@@@                 @@@@@@@@@@@@          o@@@@@@@@@# @@@@@@@@     
+      @@@@@@@                    @@@@@@@@           @@@@@@@@@@    @@@@@@@     
+     @@@@@@@@                                    o@@@@@@@@@@      @@@@@@@@    
+     @@@@@@@*                                  o@@@@@@@@@#        *@@@@@@@    
+     @@@@@@@@                                o@@@@@@@@@@          #@@@@@@@    
+     :@@@@@@@                              o@@@@@@@@@@            @@@@@@@:    
+      @@@@@@@@                           o@@@@@@@@@@             @@@@@@@@     
+       @@@@@@@@                        o@@@@@@@@@@              @@@@@@@@      
+        @@@@@@@@                      @@@@@@@@@@               @@@@@@@@@      
+         @@@@@@@@@*                @@@@@@@@@@@               @@@@@@@@@:       
+          @@@@@@@@@@@@&amp;        #@@@@@@@@@@@@@@@@        *@@@@@@@@@@@@         
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           
+              &amp;@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@             
+                  @@@@@@@@@@@@@@@@@#       #@@@@@@@@@@@@@@@@@.                
+                                                                              
+                                                                              
+
+2022-06-08 13:36:59.183  INFO 9 --- [           main] c.e.h.h.HealeniumProxyApplication        : Starting HealeniumProxyApplication v0.2.4-selenium-4 using Java 1.8.0_322 on c4d41c3c45ff with PID 9 (/hlm-proxy.jar started by root in /)
+2022-06-08 13:36:59.216  INFO 9 --- [           main] c.e.h.h.HealeniumProxyApplication        : No active profile set, falling back to default profiles: default
+2022-06-08 13:37:18.028  INFO 9 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8085 (http)
+2022-06-08 13:37:18.143  INFO 9 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-08 13:37:18.155  INFO 9 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-06-08 13:37:18.650  INFO 9 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-08 13:37:18.651  INFO 9 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 18720 ms
+2022-06-08 13:37:28.451  INFO 9 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8085 (http) with context path ''
+2022-06-08 13:37:28.598  INFO 9 --- [           main] c.e.h.h.HealeniumProxyApplication        : Started HealeniumProxyApplication in 39.441 seconds (JVM running for 51.447)
+2022-06-08 13:38:47.774  INFO 9 --- [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-08 13:38:47.781  INFO 9 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-08 13:38:47.828  INFO 9 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 47 ms
+2022-06-08 13:39:05.714  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/640c8d63-de52-4370-87d0-ff15b17cb11b
+2022-06-08 13:39:18.092  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 13:39:18.516  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#data-id)
+2022-06-08 13:39:22.008  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/640c8d63-de52-4370-87d0-ff15b17cb11b
+2022-06-08 13:39:59.451  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/bb21ada4-26be-4aea-a349-26296a3edf7b
+2022-06-08 13:40:06.280  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 13:40:06.522  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#data-id)
+2022-06-08 13:40:07.569  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/bb21ada4-26be-4aea-a349-26296a3edf7b
+2022-06-08 14:39:23.637  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/e77e5161-89c2-4def-a124-9b888979ccac
+2022-06-08 14:39:31.840  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 14:39:32.171  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#id-1)
+2022-06-08 14:39:33.821  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/e77e5161-89c2-4def-a124-9b888979ccac
+2022-06-08 14:40:26.527  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/65439c2c-5e7e-4dd6-a10f-df6ef4ca5432
+2022-06-08 14:40:31.645  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 14:40:31.761  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8017649017649017, value=By.cssSelector: button#random-id)
+2022-06-08 14:40:32.692  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/65439c2c-5e7e-4dd6-a10f-df6ef4ca5432
+2022-06-08 15:07:09.217  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/93a96a2c-4a01-4d43-aa7a-398d2e30f208
+2022-06-08 15:07:21.959  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 15:07:22.251  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#data-id)
+2022-06-08 15:07:23.848  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/93a96a2c-4a01-4d43-aa7a-398d2e30f208
+2022-06-08 17:20:39.577  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/8ef24449-29ba-4290-9f08-59508f23b464
+2022-06-08 17:21:19.218  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:21:20.113  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 17:21:21.445  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/8ef24449-29ba-4290-9f08-59508f23b464
+2022-06-08 17:23:15.079  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/0df49b3e-4816-4269-8da7-54caae9012ba
+2022-06-08 17:23:21.292  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:23:21.410  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8017649017649017, value=By.cssSelector: button#data-id)
+2022-06-08 17:23:21.945  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/0df49b3e-4816-4269-8da7-54caae9012ba
+2022-06-08 17:29:00.921  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/53179874-2d2a-4e00-856e-45796dea77c5
+2022-06-08 17:29:13.796  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:29:14.028  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: button#random-id)
+2022-06-08 17:29:15.325  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/53179874-2d2a-4e00-856e-45796dea77c5
+2022-06-08 17:30:51.379  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/8ea279d1-a098-4782-b902-1652513a0493
+2022-06-08 17:31:07.038  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:31:07.177  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: button#id-id)
+2022-06-08 17:31:10.719  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/8ea279d1-a098-4782-b902-1652513a0493
+2022-06-08 17:32:10.154  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/af815be7-eb62-4815-9e41-0b5e15e6ee7f
+2022-06-08 17:32:16.083  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:32:16.275  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: button#id-id)
+2022-06-08 17:32:16.843  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/af815be7-eb62-4815-9e41-0b5e15e6ee7f
+2022-06-08 17:41:32.474  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/2429c3f4-c511-4f25-9fbf-ce174f98430c
+2022-06-08 17:41:39.549  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:41:39.697  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#id-id)
+2022-06-08 17:41:40.578  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/2429c3f4-c511-4f25-9fbf-ce174f98430c
+2022-06-08 17:44:46.255  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/8ef0df4d-b050-401b-bf2a-d090375b07af
+2022-06-08 17:44:51.815  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:44:52.021  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8020027591456163, value=By.cssSelector: button#random-id)
+2022-06-08 17:44:52.690  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/8ef0df4d-b050-401b-bf2a-d090375b07af
+2022-06-08 17:45:50.479  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/3fb414d2-a26c-4904-87c1-188f1e49cda5
+2022-06-08 17:45:55.444  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:45:55.602  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#id-id)
+2022-06-08 17:45:56.152  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/3fb414d2-a26c-4904-87c1-188f1e49cda5
+2022-06-08 17:47:20.408  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/7b97bf00-3854-46f7-99d1-9045ad3c85cd
+2022-06-08 17:47:25.153  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:47:25.367  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 17:47:26.158  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/7b97bf00-3854-46f7-99d1-9045ad3c85cd
+2022-06-08 17:50:25.532  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/4e83fcbb-5c96-4cf7-a418-a4cd0ee75cd0
+2022-06-08 17:50:30.310  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:50:30.555  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#data-id)
+2022-06-08 17:50:31.473  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/4e83fcbb-5c96-4cf7-a418-a4cd0ee75cd0
+2022-06-08 17:53:00.718  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/6b384aa5-e586-4a2f-964d-b5c177574809
+2022-06-08 17:53:06.008  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:53:06.142  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: button#data-id)
+2022-06-08 17:53:06.722  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/6b384aa5-e586-4a2f-964d-b5c177574809
+2022-06-08 17:56:05.787  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/d5b0491f-b1a3-4ced-a1c2-7e14493d03d5
+2022-06-08 17:56:11.313  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:56:11.615  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#data-id)
+2022-06-08 17:56:12.216  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/d5b0491f-b1a3-4ced-a1c2-7e14493d03d5
+2022-06-08 17:57:38.691  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/4a1a0ecc-7abd-4f24-9a30-07cb41ca055d
+2022-06-08 17:57:42.554  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:57:42.676  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 17:57:43.118  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/4a1a0ecc-7abd-4f24-9a30-07cb41ca055d
+2022-06-08 17:58:23.767  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/d4b8d307-f4f9-4f80-895d-d0117e36b7ac
+2022-06-08 17:58:29.145  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 17:58:29.253  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8017649017649017, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 17:58:29.586  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/d4b8d307-f4f9-4f80-895d-d0117e36b7ac
+2022-06-08 18:10:05.500  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/52461e52-f352-4e58-a3a8-0ff3c830efc8
+2022-06-08 18:10:14.871  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:10:15.120  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 18:10:16.017  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/52461e52-f352-4e58-a3a8-0ff3c830efc8
+2022-06-08 18:14:11.056  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/57bf13d4-7265-4880-bb9b-f2458206937d
+2022-06-08 18:14:21.133  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:14:21.441  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#id-1)
+2022-06-08 18:14:22.901  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/57bf13d4-7265-4880-bb9b-f2458206937d
+2022-06-08 18:17:09.225  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/22cfaf73-5f41-4db9-863c-801a35209cb8
+2022-06-08 18:17:19.127  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:17:19.545  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 18:17:19.998  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/22cfaf73-5f41-4db9-863c-801a35209cb8
+2022-06-08 18:19:08.918  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/b00f608f-7200-4592-93da-22400a1d94c6
+2022-06-08 18:19:15.787  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:19:15.881  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: button#id-id)
+2022-06-08 18:19:16.356  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/b00f608f-7200-4592-93da-22400a1d94c6
+2022-06-08 18:20:54.289  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/83d2310b-5bd5-4e09-aeac-c3a907c8e4cc
+2022-06-08 18:21:01.391  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:21:01.626  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#id-1)
+2022-06-08 18:21:02.631  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/83d2310b-5bd5-4e09-aeac-c3a907c8e4cc
+2022-06-08 18:22:13.956  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/7c24241d-4568-44c9-aff6-a04195755094
+2022-06-08 18:22:18.643  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:22:18.719  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8166233766233766, value=By.cssSelector: button#random-id)
+2022-06-08 18:22:19.060  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/7c24241d-4568-44c9-aff6-a04195755094
+2022-06-08 18:23:53.983  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/90e52ba1-5277-45a1-984a-aecddeff4ee4
+2022-06-08 18:23:58.415  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 18:23:58.617  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-08 18:23:59.409  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/90e52ba1-5277-45a1-984a-aecddeff4ee4
+2022-06-08 19:36:49.798  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/d5493d76-0f5b-433e-b5cd-3d4af9326f15
+2022-06-08 19:37:37.933  WARN 9 --- [nio-8085-exec-3] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 19:37:38.738  WARN 9 --- [nio-8085-exec-5] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //*[@id='markup-generation-button']
+Trying to heal...
+2022-06-08 19:37:38.896  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/d5493d76-0f5b-433e-b5cd-3d4af9326f15
+2022-06-08 19:38:25.284  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/cf5e064c-a05a-4364-8b39-ee21823145c3
+2022-06-08 19:38:29.918  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 19:38:30.067  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#data-id)
+2022-06-08 19:38:30.901  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/cf5e064c-a05a-4364-8b39-ee21823145c3
+2022-06-08 19:49:18.900  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/eccd5cf9-b8a5-48a6-8a81-65cbcaf91567
+2022-06-08 19:49:30.774  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 19:49:30.993  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8020027591456163, value=By.cssSelector: button#data-id)
+2022-06-08 19:49:32.128  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/eccd5cf9-b8a5-48a6-8a81-65cbcaf91567
+2022-06-08 19:52:05.581  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/071f4971-1a19-40a5-8a25-547e04b8e73a
+2022-06-08 19:52:13.392  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 19:52:13.514  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#id-id)
+2022-06-08 19:52:13.954  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/071f4971-1a19-40a5-8a25-547e04b8e73a
+2022-06-08 19:53:55.407  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/701cbed2-5402-4b52-8587-c1ceb0748f25
+2022-06-08 19:54:01.834  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 19:54:01.960  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8166233766233766, value=By.cssSelector: button#id-id)
+2022-06-08 19:54:02.568  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/701cbed2-5402-4b52-8587-c1ceb0748f25
+2022-06-08 20:01:22.413  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/6864d9fa-5d24-4030-9b74-81c7b299c01d
+2022-06-08 20:01:29.197  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:01:29.312  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#random-id)
+2022-06-08 20:01:29.978  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/6864d9fa-5d24-4030-9b74-81c7b299c01d
+2022-06-08 20:02:15.456  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/c36cc64f-4c29-47fc-aa13-5356df6320ad
+2022-06-08 20:02:20.081  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:02:20.283  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8020027591456163, value=By.cssSelector: button#random-id)
+2022-06-08 20:02:21.308  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/c36cc64f-4c29-47fc-aa13-5356df6320ad
+2022-06-08 20:05:10.493  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/8a4f1767-5f10-4a0a-ae48-4f01cfd2ad6f
+2022-06-08 20:05:15.010  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:05:15.111  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8017649017649017, value=By.cssSelector: button#id-1)
+2022-06-08 20:05:15.541  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/8a4f1767-5f10-4a0a-ae48-4f01cfd2ad6f
+2022-06-08 20:06:50.254  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/8242c6b2-ee21-4294-a2fc-7e251b4aac1c
+2022-06-08 20:06:54.279  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:06:54.347  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8166233766233766, value=By.cssSelector: button#id-id)
+2022-06-08 20:06:54.766  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/8242c6b2-ee21-4294-a2fc-7e251b4aac1c
+2022-06-08 20:10:50.469  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/df9aaa6c-8f46-4372-bba1-e9c829e09fd4
+2022-06-08 20:10:54.360  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:10:54.449  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#data-id)
+2022-06-08 20:10:54.893  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/df9aaa6c-8f46-4372-bba1-e9c829e09fd4
+2022-06-08 20:14:15.519  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/21bfd7bc-6df1-4ac2-8df7-e8f631d4972e
+2022-06-08 20:14:19.552  WARN 9 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:14:19.658  WARN 9 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#id-id)
+2022-06-08 20:14:20.203  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/21bfd7bc-6df1-4ac2-8df7-e8f631d4972e
+2022-06-08 20:19:30.765  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/d01ea302-a87b-4628-bc8a-bfe702899bce
+2022-06-08 20:19:35.432  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:19:35.558  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8020027591456163, value=By.cssSelector: button#id-1)
+2022-06-08 20:19:36.026  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/d01ea302-a87b-4628-bc8a-bfe702899bce
+2022-06-08 20:21:25.433  INFO 9 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/e0fea05d-ea2d-4a71-af65-958374a4feb8
+2022-06-08 20:21:30.151  WARN 9 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:21:30.358  WARN 9 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#id-1)
+2022-06-08 20:21:30.782  INFO 9 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/e0fea05d-ea2d-4a71-af65-958374a4feb8
+2022-06-08 20:26:16.507  INFO 9 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/e79a794a-cd23-49b2-8779-7e08ed10ba75
+2022-06-08 20:26:20.981  WARN 9 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:26:21.248  WARN 9 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#id-1)
+2022-06-08 20:26:22.005  INFO 9 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/e79a794a-cd23-49b2-8779-7e08ed10ba75
+2022-06-08 20:28:44.573  INFO 9 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/90cd16c5-6bc7-431c-b6a8-3221fbfbacb4
+2022-06-08 20:28:51.364  WARN 9 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:28:51.582  WARN 9 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8176623376623376, value=By.cssSelector: button#random-id)
+2022-06-08 20:28:52.721  INFO 9 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/90cd16c5-6bc7-431c-b6a8-3221fbfbacb4
+2022-06-08 20:38:05.731  INFO 9 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/3fabc126-49a6-4064-9fda-d01e5e095851
+2022-06-08 20:38:12.682  WARN 9 --- [nio-8085-exec-1] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:38:12.826  WARN 9 --- [nio-8085-exec-1] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#id-id)
+2022-06-08 20:38:14.310  INFO 9 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/3fabc126-49a6-4064-9fda-d01e5e095851
+2022-06-08 20:41:56.231  INFO 9 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/87ed7c59-b298-4ebf-a929-d89161210b4b
+2022-06-08 20:42:04.778  WARN 9 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-08 20:42:05.045  WARN 9 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8020027591456163, value=By.cssSelector: button#id-id)
+2022-06-08 20:42:06.210  INFO 9 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/87ed7c59-b298-4ebf-a929-d89161210b4b
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/logback-classic-1.2.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/slf4j-simple-1.7.33.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+
+
+                                                                              
+                                                                              
+                     &amp;@@@@@@@@@@:              @@@@@@@@@@8                    
+                @@@@@@@@@@@@@@@@@@@@@:    @@@@@@@@@@@@@@@@@@@@@               
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&amp;            
+           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          
+         .@@@@@@@@@@*            @@@@@@@@@@@@@            *@@@@@@@@@@@        
+        @@@@@@@@@*              .@@@@@@@@@@                   @@@@@@@@@       
+       @@@@@@@@@               @@@@@@@@@@                      o@@@@@@@@      
+      :@@@@@@@              .@@@@@@@@@@                          @@@@@@@@     
+      @@@@@@@*            .@@@@@@@@@@                             @@@@@@@     
+     #@@@@@@@            @@@@@@@@@@                               @@@@@@@#    
+     @@@@@@@o          @@@@@@@@@@                                 o@@@@@@@    
+     @@@@@@@o       .@@@@@@@@@@                                   o@@@@@@@    
+     8@@@@@@@     .@@@@@@@@@@           :@@&amp;                      @@@@@@@8    
+      @@@@@@@o   @@@@@@@@@@          @@@@@@@@@@                   @@@@@@@     
+       @@@@@@@*@@@@@@@@@@          @@@@@@@@@@@@@@                @@@@@@@@     
+       @@@@@@@@@@@@@@@@          @@@@@@@@@@@@@@@@              @@@@@@@@@      
+        &amp;@@@@@@@@@@@@          @@@@@@@@@@@@@@@@@@            o@@@@@@@@@       
+         @@@@@@@@@@           @@@@@@@@@@@@@@@@@@@           @@@@@@@@@@        
+        @@@@@@@@@             @@@@@@@@@@@@@@@@@.         o@@@@@@@@@@@@@       
+       @@@@@@@@               @@@@@@@@@@@@@@@          o@@@@@@@@@@@@@@@@      
+      @@@@@@@@                 @@@@@@@@@@@@          o@@@@@@@@@# @@@@@@@@     
+      @@@@@@@                    @@@@@@@@           @@@@@@@@@@    @@@@@@@     
+     @@@@@@@@                                    o@@@@@@@@@@      @@@@@@@@    
+     @@@@@@@*                                  o@@@@@@@@@#        *@@@@@@@    
+     @@@@@@@@                                o@@@@@@@@@@          #@@@@@@@    
+     :@@@@@@@                              o@@@@@@@@@@            @@@@@@@:    
+      @@@@@@@@                           o@@@@@@@@@@             @@@@@@@@     
+       @@@@@@@@                        o@@@@@@@@@@              @@@@@@@@      
+        @@@@@@@@                      @@@@@@@@@@               @@@@@@@@@      
+         @@@@@@@@@*                @@@@@@@@@@@               @@@@@@@@@:       
+          @@@@@@@@@@@@&amp;        #@@@@@@@@@@@@@@@@        *@@@@@@@@@@@@         
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           
+              &amp;@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@             
+                  @@@@@@@@@@@@@@@@@#       #@@@@@@@@@@@@@@@@@.                
+                                                                              
+                                                                              
+
+2022-06-09 14:05:48.566  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : Starting HealeniumProxyApplication v0.2.4-selenium-4 using Java 1.8.0_322 on c4d41c3c45ff with PID 8 (/hlm-proxy.jar started by root in /)
+2022-06-09 14:05:48.578  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : No active profile set, falling back to default profiles: default
+2022-06-09 14:05:55.999  INFO 8 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8085 (http)
+2022-06-09 14:05:56.058  INFO 8 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-09 14:05:56.060  INFO 8 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-06-09 14:05:56.276  INFO 8 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-09 14:05:56.276  INFO 8 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7435 ms
+2022-06-09 14:06:00.315  INFO 8 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8085 (http) with context path ''
+2022-06-09 14:06:00.373  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : Started HealeniumProxyApplication in 17.137 seconds (JVM running for 21.333)
+2022-06-09 14:06:05.074  INFO 8 --- [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-09 14:06:05.081  INFO 8 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-09 14:06:05.089  INFO 8 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2022-06-09 14:06:29.583  INFO 8 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/89ae2d7f-b2ef-4d2c-b0bb-30d3034c06f4
+2022-06-09 14:07:05.673  WARN 8 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:07:05.983  WARN 8 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#id-1)
+2022-06-09 14:07:11.640  INFO 8 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/89ae2d7f-b2ef-4d2c-b0bb-30d3034c06f4
+2022-06-09 14:12:33.800  INFO 8 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/3e4739de-20cb-4758-8315-58809d95382c
+2022-06-09 14:12:40.921  WARN 8 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:12:41.196  WARN 8 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#data-id)
+2022-06-09 14:12:42.620  INFO 8 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/3e4739de-20cb-4758-8315-58809d95382c
+2022-06-09 14:17:57.312  INFO 8 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/1ca86749-17c5-4150-99dd-20873f4e6a6b
+2022-06-09 14:18:02.440  WARN 8 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:18:02.639  WARN 8 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#data-id)
+2022-06-09 14:18:03.682  INFO 8 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/1ca86749-17c5-4150-99dd-20873f4e6a6b
+2022-06-09 14:19:12.007  INFO 8 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/f1b844ce-dbec-4a50-be98-7e0896aa2fc8
+2022-06-09 14:19:18.604  WARN 8 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:19:18.821  WARN 8 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#random-id)
+2022-06-09 14:19:19.649  INFO 8 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/f1b844ce-dbec-4a50-be98-7e0896aa2fc8
+2022-06-09 14:22:32.793  INFO 8 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/9c3d5cf4-225b-4369-a921-08b7826e0bbb
+2022-06-09 14:22:39.007  WARN 8 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:22:39.191  WARN 8 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8145454545454547, value=By.cssSelector: button#random-id)
+2022-06-09 14:22:39.911  INFO 8 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/9c3d5cf4-225b-4369-a921-08b7826e0bbb
+2022-06-09 14:27:17.790  INFO 8 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/ca91f443-c533-4aa9-a15b-21e08b09df6d
+2022-06-09 14:27:23.606  WARN 8 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:27:23.773  WARN 8 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8000333000333001, value=By.cssSelector: button#data-id)
+2022-06-09 14:27:24.581  INFO 8 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/ca91f443-c533-4aa9-a15b-21e08b09df6d
+2022-06-09 14:36:18.102  INFO 8 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/41190758-9ab6-4322-b4d3-ab0835db2529
+2022-06-09 14:36:25.045  WARN 8 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:36:25.244  WARN 8 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#data-id)
+2022-06-09 14:36:26.050  INFO 8 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/41190758-9ab6-4322-b4d3-ab0835db2529
+2022-06-09 14:51:28.085  INFO 8 --- [nio-8085-exec-7] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/a3abf2b0-0be4-4bf2-a46f-730b1812faff
+2022-06-09 14:51:37.097  WARN 8 --- [nio-8085-exec-8] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 14:51:37.336  WARN 8 --- [nio-8085-exec-8] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8026307026307027, value=By.cssSelector: button#id-1)
+2022-06-09 14:51:39.320  INFO 8 --- [nio-8085-exec-3] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/a3abf2b0-0be4-4bf2-a46f-730b1812faff
+2022-06-09 16:09:24.017  INFO 8 --- [nio-8085-exec-5] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/5d51a0c4-7f06-44ae-813b-e594b953fc32
+2022-06-09 16:10:13.430  WARN 8 --- [nio-8085-exec-6] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 16:10:13.893  WARN 8 --- [nio-8085-exec-6] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-09 16:10:15.465  INFO 8 --- [nio-8085-exec-1] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/5d51a0c4-7f06-44ae-813b-e594b953fc32
+2022-06-09 16:12:01.171  INFO 8 --- [nio-8085-exec-3] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/a554870b-f9d8-4d78-aeae-b6a214f9ac23
+2022-06-09 16:12:06.686  WARN 8 --- [nio-8085-exec-4] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 16:12:06.844  WARN 8 --- [nio-8085-exec-4] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8017649017649017, value=By.cssSelector: button#id-1)
+2022-06-09 16:12:07.556  INFO 8 --- [nio-8085-exec-9] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/a554870b-f9d8-4d78-aeae-b6a214f9ac23
+2022-06-09 16:42:45.546  INFO 8 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/26989323-c4e9-49a7-9666-d10b1878c214
+2022-06-09 16:42:52.486  WARN 8 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 16:42:52.673  WARN 8 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#data-id)
+2022-06-09 16:42:53.713  INFO 8 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/26989323-c4e9-49a7-9666-d10b1878c214
+2022-06-09 16:48:41.149  INFO 8 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/dbc4e256-6253-4ac1-862c-fdacb478dc52
+2022-06-09 16:48:46.517  WARN 8 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-09 16:48:46.713  WARN 8 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: html &gt; body &gt; div &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; button)
+2022-06-09 16:48:47.127  INFO 8 --- [nio-8085-exec-5] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/dbc4e256-6253-4ac1-862c-fdacb478dc52
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/logback-classic-1.2.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/hlm-proxy.jar!/BOOT-INF/lib/slf4j-simple-1.7.33.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [ch.qos.logback.classic.util.ContextSelectorStaticBinder]
+
+
+                                                                              
+                                                                              
+                     &amp;@@@@@@@@@@:              @@@@@@@@@@8                    
+                @@@@@@@@@@@@@@@@@@@@@:    @@@@@@@@@@@@@@@@@@@@@               
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&amp;            
+           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@          
+         .@@@@@@@@@@*            @@@@@@@@@@@@@            *@@@@@@@@@@@        
+        @@@@@@@@@*              .@@@@@@@@@@                   @@@@@@@@@       
+       @@@@@@@@@               @@@@@@@@@@                      o@@@@@@@@      
+      :@@@@@@@              .@@@@@@@@@@                          @@@@@@@@     
+      @@@@@@@*            .@@@@@@@@@@                             @@@@@@@     
+     #@@@@@@@            @@@@@@@@@@                               @@@@@@@#    
+     @@@@@@@o          @@@@@@@@@@                                 o@@@@@@@    
+     @@@@@@@o       .@@@@@@@@@@                                   o@@@@@@@    
+     8@@@@@@@     .@@@@@@@@@@           :@@&amp;                      @@@@@@@8    
+      @@@@@@@o   @@@@@@@@@@          @@@@@@@@@@                   @@@@@@@     
+       @@@@@@@*@@@@@@@@@@          @@@@@@@@@@@@@@                @@@@@@@@     
+       @@@@@@@@@@@@@@@@          @@@@@@@@@@@@@@@@              @@@@@@@@@      
+        &amp;@@@@@@@@@@@@          @@@@@@@@@@@@@@@@@@            o@@@@@@@@@       
+         @@@@@@@@@@           @@@@@@@@@@@@@@@@@@@           @@@@@@@@@@        
+        @@@@@@@@@             @@@@@@@@@@@@@@@@@.         o@@@@@@@@@@@@@       
+       @@@@@@@@               @@@@@@@@@@@@@@@          o@@@@@@@@@@@@@@@@      
+      @@@@@@@@                 @@@@@@@@@@@@          o@@@@@@@@@# @@@@@@@@     
+      @@@@@@@                    @@@@@@@@           @@@@@@@@@@    @@@@@@@     
+     @@@@@@@@                                    o@@@@@@@@@@      @@@@@@@@    
+     @@@@@@@*                                  o@@@@@@@@@#        *@@@@@@@    
+     @@@@@@@@                                o@@@@@@@@@@          #@@@@@@@    
+     :@@@@@@@                              o@@@@@@@@@@            @@@@@@@:    
+      @@@@@@@@                           o@@@@@@@@@@             @@@@@@@@     
+       @@@@@@@@                        o@@@@@@@@@@              @@@@@@@@      
+        @@@@@@@@                      @@@@@@@@@@               @@@@@@@@@      
+         @@@@@@@@@*                @@@@@@@@@@@               @@@@@@@@@:       
+          @@@@@@@@@@@@&amp;        #@@@@@@@@@@@@@@@@        *@@@@@@@@@@@@         
+            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@           
+              &amp;@@@@@@@@@@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@@@@@@@@@@             
+                  @@@@@@@@@@@@@@@@@#       #@@@@@@@@@@@@@@@@@.                
+                                                                              
+                                                                              
+
+2022-06-11 14:02:36.061  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : Starting HealeniumProxyApplication v0.2.4-selenium-4 using Java 1.8.0_322 on c4d41c3c45ff with PID 8 (/hlm-proxy.jar started by root in /)
+2022-06-11 14:02:36.080  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : No active profile set, falling back to default profiles: default
+2022-06-11 14:02:44.717  INFO 8 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8085 (http)
+2022-06-11 14:02:44.771  INFO 8 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-06-11 14:02:44.773  INFO 8 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-06-11 14:02:45.024  INFO 8 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-06-11 14:02:45.026  INFO 8 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 8546 ms
+2022-06-11 14:02:49.395  INFO 8 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8085 (http) with context path ''
+2022-06-11 14:02:49.442  INFO 8 --- [           main] c.e.h.h.HealeniumProxyApplication        : Started HealeniumProxyApplication in 22.259 seconds (JVM running for 30.365)
+2022-06-11 14:04:46.499  INFO 8 --- [nio-8085-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-06-11 14:04:46.500  INFO 8 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-06-11 14:04:46.508  INFO 8 --- [nio-8085-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2022-06-11 14:04:57.590  INFO 8 --- [nio-8085-exec-1] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/6fcb5c92-433f-47ef-908b-4de0c68e85e6
+2022-06-11 14:05:10.893  WARN 8 --- [nio-8085-exec-2] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-11 14:05:11.125  WARN 8 --- [nio-8085-exec-2] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8166233766233766, value=By.cssSelector: button#id-1)
+2022-06-11 14:05:15.079  INFO 8 --- [nio-8085-exec-7] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/6fcb5c92-433f-47ef-908b-4de0c68e85e6
+2022-06-11 16:31:27.381  INFO 8 --- [nio-8085-exec-9] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/d7e01a59-c4dc-4cfd-8609-21f0007b4be6
+2022-06-11 16:31:39.176  WARN 8 --- [io-8085-exec-10] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-11 16:31:39.556  WARN 8 --- [io-8085-exec-10] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.7994053565482137, value=By.cssSelector: button#id-id)
+2022-06-11 16:31:41.768  INFO 8 --- [nio-8085-exec-2] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/d7e01a59-c4dc-4cfd-8609-21f0007b4be6
+2022-06-11 16:34:12.684  INFO 8 --- [nio-8085-exec-4] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/5f77bcbf-b144-4ed1-8a5f-62d8998256d0
+2022-06-11 16:34:20.181  WARN 8 --- [nio-8085-exec-5] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-11 16:34:20.460  WARN 8 --- [nio-8085-exec-5] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8166233766233766, value=By.cssSelector: button#random-id)
+2022-06-11 16:34:22.118  INFO 8 --- [io-8085-exec-10] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/5f77bcbf-b144-4ed1-8a5f-62d8998256d0
+2022-06-11 17:11:36.053  INFO 8 --- [nio-8085-exec-2] .r.p.o.HealeniumCreateSessionPostRequest : Report available at http://localhost:7878/healenium/report/bfd63647-0de9-4627-b698-0a25cae1e102
+2022-06-11 17:11:44.265  WARN 8 --- [nio-8085-exec-3] c.e.h.processor.FindElementsProcessor    : Failed to find any elements using locator By.xpath: //button[contains(@class,'default-btn')]
+Trying to heal...
+2022-06-11 17:11:44.518  WARN 8 --- [nio-8085-exec-3] c.e.h.p.SaveHealingResultsProcessor      : Using healed locator: Scored(score=0.8011369582798153, value=By.cssSelector: button#id-1)
+2022-06-11 17:11:48.089  INFO 8 --- [nio-8085-exec-8] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/bfd63647-0de9-4627-b698-0a25cae1e102
+</msg>
+<status status="PASS" starttime="20220611 19:17:40.209" endtime="20220611 19:17:40.215"/>
+</kw>
+<kw name="Get Line" library="String">
+<var>${link}</var>
+<arg>${logs}</arg>
+<arg>-1</arg>
+<doc>Returns the specified line from the given ``string``.</doc>
+<msg timestamp="20220611 19:17:40.217" level="INFO">${link} = 2022-06-11 17:11:48.089  INFO 8 --- [nio-8085-exec-8] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/bfd63647-0de9-4627-b698-0a25cae1e102</msg>
+<status status="PASS" starttime="20220611 19:17:40.216" endtime="20220611 19:17:40.218"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${link}</arg>
+<arg>WARN</arg>
+<arg>True</arg>
+<arg>True</arg>
+<arg>DEPRECATED</arg>
+<arg>str</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220611 19:17:40.220" level="WARN" html="true">2022-06-11 17:11:48.089  INFO 8 --- [nio-8085-exec-8] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/bfd63647-0de9-4627-b698-0a25cae1e102</msg>
+<status status="PASS" starttime="20220611 19:17:40.219" endtime="20220611 19:17:40.223"/>
+</kw>
+<status status="PASS" starttime="20220611 19:17:40.204" endtime="20220611 19:17:40.224"/>
+</test>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220611 19:17:40.229" endtime="20220611 19:17:42.645"/>
+</kw>
+<status status="PASS" starttime="20220611 19:16:55.633" endtime="20220611 19:17:42.645"/>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="3" fail="0" skip="0" id="s1" name="Healenium Test">Healenium Test</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20220611 19:17:40.220" level="WARN" html="true">2022-06-11 17:11:48.089  INFO 8 --- [nio-8085-exec-8] c.e.h.h.r.delete.HealeniumDeleteRequest  : Report available at http://localhost:7878/healenium/report/bfd63647-0de9-4627-b698-0a25cae1e102</msg>
+</errors>
+</robot>
